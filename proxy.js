@@ -51,13 +51,13 @@ if (ALLOW_LEGACY_TLS) {
   console.log('proxy: ALLOW_LEGACY_TLS disabled');
 }
 
-// --- CORS / Origin check ---
-// ポイント：Origin が「空」の場合（通常のページ表示）はブロックしない。
+/// --- CORS / Origin check ---
+// 通常のページ表示（Origin なし）は許可する
 app.use((req, res, next) => {
   const origin = req.headers.origin || '';
   const referer = req.headers.referer || '';
 
-  // 通常のブラウザナビゲーション（Origin なし）は許可
+  // Origin も Referer も無い → ブラウザの通常アクセス → 許可
   if (!origin && !referer) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
@@ -66,6 +66,7 @@ app.use((req, res, next) => {
     return next();
   }
 
+  // ここから先は API 呼び出しなど Origin がある場合
   const effectiveOrigin = origin || referer;
 
   if (ALLOWED_ORIGINS.length > 0) {
