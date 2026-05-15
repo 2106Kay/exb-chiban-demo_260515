@@ -292,7 +292,7 @@
     }
   },
   "attributes": {
-    "portalUrl": "https://Inf-gis-training.maps.arcgis.com",
+    "portalUrl": "https://exb-chiban-demo-260515.onrender.com/arcgis",
     "isWebTier": false,
     "clientId": "F5hZKa1Zwhvz37IB",
     "express": false,
@@ -310,7 +310,7 @@
       "type": "WEB_MAP",
       "sourceLabel": "GEOSPACE CDS/ちばんAPI",
       "itemId": "b19f07745a4640f9b9a63085f45e460b",
-      "portalUrl": "https://Inf-gis-training.maps.arcgis.com"
+      "portalUrl": "https://exb-chiban-demo-260515.onrender.com/arcgis"
     }
   },
   "pageStructure": [

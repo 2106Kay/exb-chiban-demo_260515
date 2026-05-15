@@ -1,4 +1,4 @@
-// proxy.js - Render production proxy (CORS fixed: API-only check + static routing)
+// proxy.js - Render production proxy (CORS fixed: API-only check + ArcGIS proxy + static routing)
 
 const express = require('express');
 const https = require('https');
@@ -56,10 +56,10 @@ app.use((req, res, next) => {
     req.path.startsWith('/api-chiban') ||
     req.path.startsWith('/chiban') ||
     req.path.startsWith('/api-h-chiban') ||
-    req.path.startsWith('/houmu');
+    req.path.startsWith('/houmu') ||
+    req.path.startsWith('/arcgis'); // ArcGIS API も CORS 対象にする
 
   if (!isApi) {
-    // 静的ファイル・ArcGIS OAuth の戻り通信は CORS チェックしない
     return next();
   }
 
@@ -197,6 +197,13 @@ function houmuHandler(req, res) {
   console.log('[proxy] houmu ->', targetUrl);
   proxyRequestToTarget(req, res, targetUrl);
 }
+
+// --- ArcGIS Online proxy ---
+app.use('/arcgis', (req, res) => {
+  const targetUrl = 'https://www.arcgis.com' + req.url;
+  console.log('[proxy] arcgis ->', targetUrl);
+  proxyRequestToTarget(req, res, targetUrl);
+});
 
 // --- Mount handlers ---
 app.use('/chiban', chibanHandler);
