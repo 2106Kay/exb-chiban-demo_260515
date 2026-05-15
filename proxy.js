@@ -1,4 +1,4 @@
-// proxy.js - Render production proxy (fixed CORS + static routing)
+// proxy.js - Render production proxy (CORS fixed: API-only check + static routing)
 
 const express = require('express');
 const https = require('https');
@@ -13,7 +13,6 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const ALLOW_LEGACY_TLS = (process.env.ALLOW_LEGACY_TLS || 'true') === 'true';
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 const CHIBAN_APPID = process.env.CHIBAN_APPID || '';
 const H_CHIBAN_APPID = process.env.H_CHIBAN_APPID || '';
 const RATE_LIMIT_WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_MS || '60000', 10);
@@ -51,28 +50,26 @@ if (ALLOW_LEGACY_TLS) {
   console.log('proxy: ALLOW_LEGACY_TLS disabled');
 }
 
-/// --- CORS / Origin check ---
-// 通常のページ表示（Origin なし）は許可する
+// --- CORS / Origin check (API のみ) ---
 app.use((req, res, next) => {
-  const origin = req.headers.origin || '';
-  const referer = req.headers.referer || '';
+  const isApi =
+    req.path.startsWith('/api-chiban') ||
+    req.path.startsWith('/chiban') ||
+    req.path.startsWith('/api-h-chiban') ||
+    req.path.startsWith('/houmu');
 
-  // Origin も Referer も無い → ブラウザの通常アクセス → 許可
-  if (!origin && !referer) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-    if (req.method === 'OPTIONS') return res.status(204).end();
+  if (!isApi) {
+    // 静的ファイル・ArcGIS OAuth の戻り通信は CORS チェックしない
     return next();
   }
 
-  // ここから先は API 呼び出しなど Origin がある場合
+  const origin = req.headers.origin || '';
+  const referer = req.headers.referer || '';
   const effectiveOrigin = origin || referer;
 
   if (ALLOWED_ORIGINS.length > 0) {
     const ok = ALLOWED_ORIGINS.some(o => effectiveOrigin.startsWith(o));
     if (!ok) {
-      res.setHeader('Access-Control-Allow-Origin', 'null');
       return res.status(403).send('Origin not allowed');
     }
     res.setHeader('Access-Control-Allow-Origin', effectiveOrigin);
@@ -83,6 +80,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
   if (req.method === 'OPTIONS') return res.status(204).end();
+
   next();
 });
 
