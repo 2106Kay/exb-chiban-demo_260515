@@ -1,8 +1,7 @@
-// proxy.js - Render production proxy (fixed static routing version)
+// proxy.js - Render production proxy (fixed CORS + static routing)
 
 const express = require('express');
 const https = require('https');
-const http = require('http');
 const { URL } = require('url');
 const path = require('path');
 const crypto = require('crypto');
@@ -53,18 +52,33 @@ if (ALLOW_LEGACY_TLS) {
 }
 
 // --- CORS / Origin check ---
+// ポイント：Origin が「空」の場合（通常のページ表示）はブロックしない。
 app.use((req, res, next) => {
-  const origin = req.headers.origin || req.headers.referer || '';
+  const origin = req.headers.origin || '';
+  const referer = req.headers.referer || '';
+
+  // 通常のブラウザナビゲーション（Origin なし）は許可
+  if (!origin && !referer) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    if (req.method === 'OPTIONS') return res.status(204).end();
+    return next();
+  }
+
+  const effectiveOrigin = origin || referer;
+
   if (ALLOWED_ORIGINS.length > 0) {
-    const ok = ALLOWED_ORIGINS.some(o => origin.startsWith(o));
+    const ok = ALLOWED_ORIGINS.some(o => effectiveOrigin.startsWith(o));
     if (!ok) {
       res.setHeader('Access-Control-Allow-Origin', 'null');
       return res.status(403).send('Origin not allowed');
     }
-    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Origin', effectiveOrigin);
   } else {
     res.setHeader('Access-Control-Allow-Origin', '*');
   }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
   if (req.method === 'OPTIONS') return res.status(204).end();
@@ -73,7 +87,9 @@ app.use((req, res, next) => {
 
 // --- Logging ---
 app.use((req, res, next) => {
-  console.log(`[incoming] ${req.method} ${req.originalUrl} ip:${req.ip} origin:${req.headers.origin || '-'}`);
+  console.log(
+    `[incoming] ${req.method} ${req.originalUrl} ip:${req.ip} origin:${req.headers.origin || '-'} referer:${req.headers.referer || '-'}`
+  );
   next();
 });
 
