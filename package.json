@@ -1,0 +1,18 @@
+{
+  "name": "exb-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proxy + static host for Experience Builder demo (Render-ready)",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "start": "node proxy.js",
+    "build": "cd client && npm ci && npm run build || echo \"no client build\"",
+    "postinstall": "cd client && npm ci && npm run build || echo \"skip client build\""
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "license": "UNLICENSED"
+}

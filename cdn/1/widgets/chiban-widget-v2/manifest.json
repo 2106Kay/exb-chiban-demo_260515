@@ -1,0 +1,32 @@
+{
+  "name": "chiban-widget-v2",
+  "id": "chiban-widget-v2",
+  "label": "地番検索ウィジェット",
+  "type": "widget",
+  "version": "1.19.0",
+  "exbVersion": "1.19.0",
+  "frameworkVersion": "1.19",
+  "author": "tsutomu",
+  "description": "地番検索（文字列検索・逆引き検索）ウィジェット",
+  "framework": "react",
+  "supportTheme": true,
+  "translatedLocales": [
+    "ja"
+  ],
+  "uri": "chiban-widget-v2",
+  "properties": {
+    "hasSettingPage": true,
+    "useMapWidget": true,
+    "useMapWidgetIds": true
+  },
+  "supportedMapTypes": [
+    "WebMap",
+    "WebScene"
+  ],
+  "settingDependency": [
+    "jimu-arcgis"
+  ],
+  "runtime": {
+    "main": "src/runtime/widget"
+  }
+}

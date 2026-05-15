@@ -1,0 +1,322 @@
+{
+  "pages": {
+    "page_0": {
+      "id": "page_0",
+      "mode": "FIT_WINDOW",
+      "type": "NORMAL",
+      "layout": {
+        "LARGE": "layout_0"
+      },
+      "isDefault": true,
+      "isVisible": true,
+      "label": "ページ"
+    }
+  },
+  "layouts": {
+    "layout_0": {
+      "type": "FIXED",
+      "content": {
+        "0": {
+          "type": "WIDGET",
+          "widgetId": "widget_1",
+          "bbox": {
+            "left": "-0.0%",
+            "right": "68.8%",
+            "top": "38.2%",
+            "bottom": "0.0%",
+            "width": "31.2%",
+            "height": "61.8%"
+          },
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": true,
+              "bottom": false
+            },
+            "vCenter": false,
+            "hCenter": false
+          }
+        },
+        "3": {
+          "type": "WIDGET",
+          "widgetId": "widget_4",
+          "bbox": {
+            "left": "0.0%",
+            "right": "69.0%",
+            "top": "1.0%",
+            "bottom": "94.9%",
+            "width": "31.0%",
+            "height": "4.0%"
+          },
+          "setting": {
+            "autoProps": {
+              "height": "AUTO",
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            },
+            "vCenter": false,
+            "hCenter": false
+          }
+        },
+        "4": {
+          "type": "WIDGET",
+          "widgetId": "widget_5",
+          "bbox": {
+            "left": "31.5%",
+            "right": "0.3%",
+            "top": "0.0%",
+            "bottom": "0.0%",
+            "width": "68.2%",
+            "height": "100.0%"
+          },
+          "setting": {
+            "autoProps": {
+              "left": true,
+              "right": false,
+              "top": true,
+              "bottom": false
+            },
+            "vCenter": false,
+            "hCenter": false
+          }
+        },
+        "5": {
+          "type": "WIDGET",
+          "widgetId": "widget_6",
+          "bbox": {
+            "left": "0.0%",
+            "right": "69.0%",
+            "top": "4.9%",
+            "bottom": "61.8%",
+            "width": "31.0%",
+            "height": "33.3%"
+          },
+          "setting": {
+            "autoProps": {
+              "left": false,
+              "right": true,
+              "top": false,
+              "bottom": true
+            }
+          }
+        }
+      },
+      "order": [
+        "0",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "layout_2": {
+      "content": {},
+      "type": "FIXED",
+      "label": "Map FixedLayout"
+    }
+  },
+  "exbVersion": "1.19.0",
+  "mainSizeMode": "LARGE",
+  "theme": "themes/master/",
+  "forBuilderAttributes": {
+    "lockLayout": false
+  },
+  "template": "blankfullscreen",
+  "widgets": {
+    "widget_1": {
+      "uri": "widgets/chiban-widget-v2/",
+      "version": "1.19.0",
+      "label": "地番検索ウィジェット",
+      "config": {
+        "exampleConfigProperty": "test",
+        "appid": "ArcGIS_Pro_chiban_add-in",
+        "esriApiKey": "AAPTamRKfd_k3-2NelwGpM_nZ-w..myICIknc8YbS1rr6qgMp6Q9bXSWeSRr3XL2CFhlEZ17EoqC7lm2ulCcP4K5TUFfz3HKFhNV44CtWPQNS0PBf4ux15KzzlzJUlJQWCC7CzCLmfTjxCi7GsgKRCfnF0q6CiyI1YGZw8vN1GWkb-0KJs6zZwctYMVePD26mNLx8aFZn15r72fpVskGnium7GGU1NHqqUQIjiQJSue45aS_won7vlZBGxuOJqIXDdCVosx5rrDvTUsAcdomNiw..AT1_HgcFpEVS"
+      },
+      "id": "widget_1",
+      "useMapWidgetIds": [
+        "widget_5"
+      ]
+    },
+    "widget_4": {
+      "uri": "widgets/common/search/",
+      "version": "1.19.0",
+      "offPanel": true,
+      "label": "検索",
+      "config": {
+        "searchResultView": "Result_Panel",
+        "arrangementStyle": "Style1",
+        "searchResultStyle": "Classic",
+        "maxSuggestions": 6,
+        "recentSearchesMaxNumber": 6,
+        "resultMaxNumber": 6,
+        "enableFiltering": false,
+        "sourceType": "MapCentric",
+        "dataSourceConfigWithMapCentric": {
+          "widget_2-dataSource_1": null
+        },
+        "datasourceConfig": [],
+        "isAutoSelectFirstResult": true
+      },
+      "id": "widget_4",
+      "useMapWidgetIds": [],
+      "useUtilities": []
+    },
+    "widget_5": {
+      "uri": "widgets/arcgis/arcgis-map/",
+      "version": "1.19.0",
+      "label": "マップ",
+      "config": {
+        "toolConfig": {
+          "canZoom": true,
+          "canHome": true,
+          "canSearch": true,
+          "canNavigation": true
+        },
+        "isUseCustomMapState": false,
+        "initialMapDataSourceID": "dataSource_1",
+        "initialMapState": null,
+        "scaleRange": null,
+        "customLODs": null
+      },
+      "id": "widget_5",
+      "layouts": {
+        "MapFixedLayout": {
+          "LARGE": "layout_2"
+        }
+      },
+      "dataActions": {
+        "showOnMap": {
+          "config": {
+            "isUseCustomSymbol": true,
+            "isOperationalLayer": true,
+            "symbolOption": {
+              "pointSymbol": {
+                "type": "esriSMS",
+                "color": [
+                  255,
+                  255,
+                  0,
+                  150
+                ],
+                "angle": 0,
+                "xoffset": 0,
+                "yoffset": 0,
+                "size": 12,
+                "style": "esriSMSCircle",
+                "outline": {
+                  "type": "esriSLS",
+                  "color": [
+                    255,
+                    255,
+                    0,
+                    150
+                  ],
+                  "width": 1,
+                  "style": "esriSLSSolid"
+                }
+              },
+              "polylineSymbol": {
+                "type": "esriSLS",
+                "color": [
+                  255,
+                  255,
+                  0,
+                  150
+                ],
+                "width": 0.75,
+                "style": "esriSLSSolid"
+              },
+              "polygonSymbol": {
+                "type": "esriSFS",
+                "color": [
+                  255,
+                  255,
+                  0,
+                  150
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "color": [
+                    255,
+                    255,
+                    0,
+                    150
+                  ],
+                  "width": 1,
+                  "style": "esriSLSSolid"
+                },
+                "style": "esriSFSSolid"
+              }
+            }
+          }
+        }
+      },
+      "useDataSources": [
+        {
+          "dataSourceId": "dataSource_1",
+          "mainDataSourceId": "dataSource_1"
+        }
+      ]
+    },
+    "widget_6": {
+      "uri": "widgets/arcgis/map-layers/",
+      "version": "1.19.0",
+      "label": "マップ レイヤー",
+      "config": {
+        "useMapWidget": true
+      },
+      "id": "widget_6",
+      "useMapWidgetIds": [
+        "widget_5"
+      ]
+    }
+  },
+  "widgetsManifest": {},
+  "views": {},
+  "sections": {},
+  "dialogs": {},
+  "messageConfigs": {
+    "messageConfig_1": {
+      "id": "messageConfig_1",
+      "widgetId": "widget_4",
+      "messageType": "DATA_RECORD_SET_CHANGE",
+      "actions": []
+    },
+    "messageConfig_2": {
+      "id": "messageConfig_2",
+      "widgetId": "widget_4",
+      "messageType": "DATA_RECORDS_SELECTION_CHANGE",
+      "actions": []
+    }
+  },
+  "attributes": {
+    "portalUrl": "https://Inf-gis-training.maps.arcgis.com",
+    "isWebTier": false,
+    "clientId": "F5hZKa1Zwhvz37IB",
+    "express": false,
+    "title": "ExBちばんAPIウィジェット_デモ260515",
+    "description": "",
+    "type": "Web Experience",
+    "thumbnail": null
+  },
+  "timestamp": 1778829635922,
+  "sharedThemeVariables": null,
+  "mainLocale": "ja",
+  "dataSources": {
+    "dataSource_1": {
+      "id": "dataSource_1",
+      "type": "WEB_MAP",
+      "sourceLabel": "GEOSPACE CDS/ちばんAPI",
+      "itemId": "b19f07745a4640f9b9a63085f45e460b",
+      "portalUrl": "https://Inf-gis-training.maps.arcgis.com"
+    }
+  },
+  "pageStructure": [
+    {
+      "page_0": []
+    }
+  ],
+  "publishTimestamp": 1778832150579
+}
