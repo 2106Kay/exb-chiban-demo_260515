@@ -1,4 +1,4 @@
-// proxy.js - Render production proxy (CORS fixed: API-only check + ArcGIS proxy + static routing)
+// proxy.js - Render production proxy (CORS fixed: ArcGIS-only check + ArcGIS proxy + static routing)
 
 const express = require('express');
 const https = require('https');
@@ -50,14 +50,10 @@ if (ALLOW_LEGACY_TLS) {
   console.log('proxy: ALLOW_LEGACY_TLS disabled');
 }
 
-// --- CORS / Origin check (API のみ) ---
+// --- CORS / Origin check (ArcGIS API のみ) ---
 app.use((req, res, next) => {
   const isApi =
-    req.path.startsWith('/api-chiban') ||
-    req.path.startsWith('/chiban') ||
-    req.path.startsWith('/api-h-chiban') ||
-    req.path.startsWith('/houmu') ||
-    req.path.startsWith('/arcgis'); // ArcGIS API も CORS 対象にする
+    req.path.startsWith('/arcgis'); // ArcGIS API だけ CORS チェック
 
   if (!isApi) {
     return next();
@@ -68,7 +64,7 @@ app.use((req, res, next) => {
   const effectiveOrigin = origin || referer;
 
   if (ALLOWED_ORIGINS.length > 0) {
-    const ok = ALLOWED_ORIGINS.some(o => effectiveOrigin.startsWith(o));
+    const ok = effectiveOrigin && ALLOWED_ORIGINS.some(o => effectiveOrigin.startsWith(o));
     if (!ok) {
       return res.status(403).send('Origin not allowed');
     }
